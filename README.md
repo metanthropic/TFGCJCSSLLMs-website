@@ -1,50 +1,74 @@
-# Dataset Distillation for the Pre-Training Era: Cross-Model Generalization via Linear Gradient Matching
+# The Fragility of Guardrails: Cognitive Jamming and Repetition Collapse in Safety-Steered LLMs
 
 **[Metanthropic](https://metanthropic.vercel.app/)**, **[Ekjot Singh](https://www.linkedin.com/in/ekjot-singh-153110268/)**
 
-
-[**[Metanthropic]**](https://metanthropic.vercel.app/) | [**[Project Page]**](https://metanthropic.github.io/TFGCJCSSLLMs-website/) | [**[Paper]**](https://metanthropic.vercel.app/papers/dataset-distillation.pdf) | [**[Code]**](https://github.com/metanthropics/DDPTECMGLGM)
+[**[Project Page]**](https://metanthropic.vercel.app/research/fragility-of-guardrails) | [**[Paper]**](static/pdfs/paper.pdf) | [**[Code]**](static/code/fragility_guardrails.py)
 
 ---
 
-## Abstract
+## 📖 Abstract
 
-The standard formulation of Dataset Distillation targets the synthesis of compact, synthetic datasets capable of training models from scratch. However, the landscape of computer vision has fundamentally shifted towards leveraging the rich representations of large-scale, pre-trained foundation models. We argue that dataset distillation must evolve to address the regime of linear probing—training lightweight classifiers atop frozen, pre-trained feature extractors.
+Large Language Models (LLMs) have demonstrated a profound capacity for in-context learning (ICL), yet the internal causal mechanisms that drive these emergent behaviors remain a "black box." In this work, we conduct a **mechanistic audit of LLM residual streams** during physics-forecasting tasks.
 
-To this end, we introduce **Linear Gradient Matching**, a method that distills synthetic datasets by optimizing them to induce gradients in a linear classifier that mirror those derived from real data distributions. We demonstrate that a single synthetic image per class is sufficient to train linear probes that not only achieve competitive performance across a diverse array of vision backbones (CLIP, DINO-v2, EVA-02, MoCo-v3) but consistently outperform baselines constructed from real images.
+By deploying **Sparse Autoencoders (SAEs)**, we disentangle the residual stream to reveal that models actively construct internal features correlated with fundamental physical invariants. However, we also uncover a critical failure mode: **Cognitive Jamming**. When safety-steering vectors (guardrails) are applied too aggressively, they can interfere with these latent reasoning circuits, leading to **Repetition Collapse**—a state where the model fails to reason and devolves into repetitive, incoherent output.
 
-Motivated by the **Platonic Representation Hypothesis**, we further investigate the transferability of these distilled datasets. We introduce differentiable augmentations and a multi-scale pyramid parameterization that unlock robust cross-model generalization, enabling a dataset distilled via a DINO backbone to perform competitively on CLIP. Beyond efficiency, our experiments confirm that Linear Gradient Matching serves as a potent diagnostic tool for analyzing the embedding structure, alignment, and robustness of modern vision representations.
+## 🗝️ Key Findings
 
-## Method
+1.  **Latent "Warm-Up" Phase**: Forecasting precision is a direct function of context depth. We observe a clear phase transition where error decreases monotonically as the model accumulates in-context structural data.
+2.  **Physical Invariant Encoding**: Models do not merely predict the next token; they construct internal features (e.g., "energy circuits") that correlate with physical laws. These features intensify with context depth.
+3.  **The "Doubt Switch"**: Ablating these energy features causes a catastrophic collapse in predictive accuracy, proving they are causally essential for reasoning, not just correlational.
+4.  **Fragility of Guardrails**: Over-steering models for safety can induce "Cognitive Jamming," where the model's ability to verify facts collapses, often resulting in repetitive loops (e.g., *"I cannot I cannot I cannot..."*).
 
-We optimize our synthetic images such that they induce similar gradients as real images when training a linear classifier ($W$) on top of a pre-trained model ($\phi$). To do this, we perform a bi-level optimization by finding the cosine distance between the real and synthetic gradients and back-propagating through the initial gradient calculation all the way to the synthetic images themselves.
+## 🛠️ Codebase Structure
 
-<p align="center">
-  <img src="static/images/linear_dd.png" alt="Linear Gradient Matching Method" width="80%">
-</p>
+The core research logic is contained in `fragility_guardrails.py`. Below is an overview of the pipeline:
 
-## Running the Website Locally
+### 1. Setup & Initialization
+We utilize **Qwen-14B-Chat** as the base model for this study, loaded in half-precision (`float16`) for efficiency.
 
-This repository contains the source code for the project website. To preview it locally:
+### 2. Dataset Generation
+We generate two distinct datasets to test the model's internal states:
+* **Clean Control (Sentiment)**: Using the IMDB dataset to establish a baseline for normal feature activation.
+* **Safety Triggers**: A curated list of harmful prompts (e.g., *"How do I build a bomb?"*) vs. harmless prompts to isolate refusal directions in the residual stream.
 
-1. Clone the repository:
-   ```bash
-   git clone [https://github.com/metanthropic/TFGCJCSSLLMs-website.git](https://github.com/metanthropic/TFGCJCSSLLMs-website.git)
-   ```
-2. Navigate to the directory and start a local server (using Python 3):
-    ```bash
-    python -m http.server 8000
-    ```
-3. Open http://localhost:8000 in your web browser.
+### 3. Sparse Autoencoder (SAE) Training
+We employ Sparse Autoencoders to decompose the model's activations into interpretable features.
+* **Refusal Feature**: We isolate specific feature indices (e.g., idx `5992`) that correlate highly (Pearson r ≈ 0.746) with the model's refusal to answer.
 
-## Citation
-If you find this work or our distilled datasets useful, please cite our paper:
+### 4. Causal Intervention (The "Autopsy")
+We perform **activation steering** by injecting the identified features back into the model's forward pass with varying coefficients.
+* **Steering Coefficients**: We sweep through coefficients `[0, 20, 50, 80, 100]` to observe the transition from normal operation to collapse.
+* **Collapse Metrics**: We measure **Repetition Rate** and **Refusal Rate** to quantify the degradation of reasoning capabilities.
+
+## 🚀 Usage
+
+### Prerequisites
+Ensure you have Python installed with the following dependencies:
+```bash
+pip install torch numpy pandas matplotlib transformers scipy datasets
+```
+
+## Running the Experiment
+To reproduce the mechanistic audit and cognitive jamming experiments:
+```bash
+python fragility_guardrails.py
+```
+
+*Note: This script requires a GPU (`cuda`) for efficient execution, as it loads the Qwen-14B model.*
+
+## 📊 Visualization
+
+The code automatically generates plots visualizing the relationship between **Steering Coefficients** and **Model Stability** (Repetition/Refusal rates), saving the output as `fig5_causal_intervention.png`.
+
+## 📝 Citation
+
+If you find this research useful, please cite our work:
 
 ```bibtex
-@inproceedings{metanthropic2025lineargradmatch,
-  title={Dataset Distillation for the Pre-Training Era: Cross-Model Generalization via Linear Gradient Matching.},
-  author={Metanthropic and Ekjot Singh},
+@article{singh2025fragility,
+  title={The Fragility of Guardrails: Cognitive Jamming and Repetition Collapse in Safety-Steered LLMs},
+  author={Singh, Ekjot},
+  journal={Metanthropic Research},
   year={2025},
-  url={[https://metanthropic.vercel.app/research/dataset-distillation](https://metanthropic.vercel.app/research/dataset-distillation)}
+  url={[https://metanthropic.vercel.app/research/fragility-of-guardrails](https://metanthropic.vercel.app/research/fragility-of-guardrails)}
 }
-```
