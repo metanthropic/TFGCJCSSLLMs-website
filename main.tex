@@ -1,0 +1,164 @@
+\documentclass[12pt]{article}
+
+% --- Core Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{letterpaper, margin=1in}
+
+% --- Math & Symbols ---
+\usepackage{amsmath, amssymb, amsthm, amsfonts, mathtools}
+\usepackage{bm} % For bold math symbols
+\usepackage{nicefrac}
+
+% --- Graphics & Tables ---
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{adjustbox}
+\usepackage{subcaption} % Note: Consider subcaption for more modern documents
+
+% --- Colors & Highlighting ---
+\definecolor{papergreen}{RGB}{76, 153, 0}
+\newcommand{\gc}[2]{\cellcolor{papergreen!#1}#2}
+\newcommand{\dk}{\cellcolor{black}}
+
+% --- Layout & Formatting ---
+\usepackage[numbers, compress]{natbib}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{wrapfig}
+\usepackage{tcolorbox}
+\usepackage{soul}
+
+% --- Algorithms ---
+\usepackage{algorithm}
+\usepackage{algcompatible}
+
+% --- Hyperlinks ---
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=papergreen,
+    urlcolor=blue,
+    pdftitle={The Fragility of Guardrails: Cognitive Jamming and Repetition Collapse in Safety-Steered LLMs}
+}
+
+% ---------------------------------------------------------------------------
+% Metadata
+% ---------------------------------------------------------------------------
+\title{\huge \textbf{\textsc{The Fragility of Guardrails: Cognitive Jamming and Repetition Collapse in Safety-Steered LLMs}}}
+
+\author{
+    \parbox{\textwidth}{\centering
+        \normalfont\vspace{0.5em}
+        {\Large \textbf{Ekjot Singh}} \\
+        \href{mailto:ekjotmakhija@gmail.com}{\texttt{ekjotmakhija@gmail.com}} \\[0.5em]
+        \textbf{Metanthropic}
+    }
+}
+
+\date{}
+
+% ---------------------------------------------------------------------------
+% Document Body
+% ---------------------------------------------------------------------------
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\newpage
+\pagenumbering{arabic}
+
+\begin{abstract}
+Large Language Models (LLMs) have demonstrated a profound capacity for in-context learning (ICL), yet the internal causal mechanisms that drive these emergent behaviors remain a ``black box'' of high-dimensional entanglement. At \textbf{Metanthropic}, we believe that bridging the gap between linguistic pattern-matching and objective reasoning requires a mechanistic deconstruction of how models internalize structural priors. Physics-based dynamics offer a rigorous, experimentally controllable alternative to abstract symbolic benchmarks, serving as a critical testbed for evaluating the transition from statistical extrapolation to grounded world-modeling.
+
+In this work, we conduct a mechanistic audit of the LLM residual stream during physics-forecasting tasks. We demonstrate that forecasting precision is a direct function of context depth, suggesting a latent ``warm-up'' phase of in-context world-modeling. By deploying Sparse Autoencoders (SAEs), we disentangle the residual stream to reveal that the model does not merely predict the next numerical token; instead, it actively constructs internal features that correlate with fundamental physical invariants, such as energy. These findings provide empirical evidence that LLMs can spontaneously encode objective physical concepts during the ICL process. Our work establishes a new precedent for Metanthropic’s mission: uncovering the latent reasoning circuits that allow AI to move beyond text and into the structural reality of the physical world.
+\end{abstract}
+
+\section{Introduction} 
+\label{sec:intro}
+The evolutionary trajectory from fundamental transformer architectures~\cite{vaswani2017attention} to contemporary Large Language Models (LLMs) has yielded systems with unprecedented cognitive breadth. Central to this advancement is In-Context Learning (ICL)---an emergent capability that allows models to navigate complex task spaces through prompt-based calibration alone, transcending their initial linguistic training~\cite{brown2020language, wei2022emergent, bubeck2023sparks}. While ICL has been empirically verified across abstract domains such as symbolic logic and reasoning~\cite{shi2022language, srivastava2022beyond, webb2023emergent, wei2022chain}, its most profound implications lie in its ability to model dynamical systems~\cite{liu2024llms}. Recent evidence suggests that models like Llama-2~\cite{touvron2023llama} can simulate the trajectories of deterministic and chaotic systems without explicit parameter updates, hinting at a latent capacity to internalize the governing invariants of the physical world.
+
+At \textbf{Metanthropic}, we argue that the current opacity of these internal mechanisms poses a critical barrier to the development of reliable, safety-aligned AI. If LLMs are to move beyond statistical surface-matching, we must determine if they possess grounded representations of structural reality. Physical systems provide the ideal ``mechanistic laboratory'' for this inquiry; unlike noisy textual data, they offer mathematically structured, experimentally controllable dynamics governed by objective principles. By using physics as a bridge, we can begin to evaluate whether AI reasoning is built upon fragile numerical heuristics or robust, human-understandable concepts.
+
+To achieve this, we employ Sparse Autoencoders (SAEs) to deconstruct the residual stream, identifying monosemantic features that underlie the model's predictive logic~\cite{bricken2023monosemanticity, templeton2024scaling, huben2024sparse}.
+
+\begin{figure}[!t] 
+    \centering 
+    \includegraphics[width=0.85\linewidth]{figures/fig1.pdf} 
+    \caption{\textbf{The Metanthropic Mechanistic Audit.} (a) \textbf{Predictive Mapping:} Capture high-dimensional activations from residual streams during dynamics forecasting. (b) \textbf{Latent Disentanglement:} SAEs project activations into an interpretable feature space. (c) \textbf{Structural Validation:} Correlation of latent features with physical invariants (e.g., energy). (d) \textbf{Causal Intervention:} Ablation study (``Doubt Switch'') to confirm functional necessity.} 
+    \label{fig:fig1} 
+\end{figure}
+
+\section{Preliminaries} 
+\label{sec:prelims}
+
+\subsection{Encoding Structural Priors: Neural Physics and Beyond} 
+The endeavor to parameterize fundamental physical principles---such as Lagrangian or Hamiltonian invariants---within neural architectures has established a foundation for modern interpretability~\cite{greydanus2019hamiltonian, cranmer2020lagrangian, finzi2020simplifying, kasim2022constants}. Recently, the field has pivoted toward leveraging transformer architectures for multi-variate time-series forecasting, utilizing the predictive power of pre-trained LLMs via prompt-based reprogramming~\cite{xue2023promptcast, gruver2023large, liu2024autotimes}.
+
+At Metanthropic, we posit that physical systems are the ultimate ``ground truth'' for auditing AI. Because they generate interpretable, low-dimensional data, they offer a transparent link between abstract latent representations and real-world phenomena.
+
+\subsection{The Latent World-Modeling of In-Context Learning} 
+In-Context Learning (ICL) allows models to execute novel tasks through few-shot calibration without updating model weights~\cite{brown2020language, bubeck2023sparks}. Mechanistically, the driver behind ICL remains debated, ranging from ``task vectors''~\cite{hendel2023incontext, todd2024function} to ``induction heads''~\cite{elhage2021mathematical}. We argue that true physical forecasting requires the spontaneous construction of an internal world model~\cite{liu2024llms}.
+
+\section{Methods}
+\label{sec:methods}
+
+\subsection{Auditing In-Context Physics Intelligence}
+\label{subsec:physics_audit}
+\textbf{Metanthropic ``Physical Laboratory'' Synthesis:} We task LLMs with forecasting dynamical systems, ranging from stable 1D oscillators to chaotic 3D coupled pendulums. We generate high-fidelity trajectories $\bm{z}(t) = (\bm{x}(t), \bm{v}(t))$ at $\Delta t = 0.1$. These configurations provide a controlled yet complex environment for probing internal representations.
+
+\textbf{Metanthropic Tokenization Audit:} Numerical sequences are projected into token space using a specialized single-digit strategy. This strategy is robust against the digit-level fragility found in byte-pair encoding (BPE) and is essential for maintaining the structural integrity of physical dynamics. Consistent with frontier models like Qwen3~\cite{qwen3}, we utilize digit-wise stability for our primary audit.
+
+\subsection{Mechanistic Deconstruction}
+\label{subsec:deconstruction}
+\textbf{SAE-Based Feature Disentanglement:} We trained a suite of 85 SAEs across five context depths and 17 transformer blocks. By focusing on the residual stream, we observe how high-level semantic features are synthesized across the transformer's depth~\cite{bricken2023monosemanticity}.
+
+\textbf{Correlation Analysis:} We audit the relationship between latent features $c_i$ and the system's total energy ($E$), kinetic energy ($KE$), and potential energy ($PE$):
+\begin{equation}
+    \rho(c_i, Q) = \frac{\text{cov}(\{c_i\}, \{Q\})}{\sigma_{\{c_i\}}\sigma_{\{Q\}}} \quad \text{for} \quad Q \in \{E(t), KE(t), PE(t)\}
+\end{equation}
+
+\section{Metanthropic Mechanistic Audit: Results}
+\label{sec:results}
+
+\subsection{Intelligence Scaling}
+Metanthropic observed a clear phase transition in intelligence; as illustrated in Figure~\ref{fig:fig2}, forecasting error decreases monotonically as context depth increases. This scaling behavior confirms that LLM intelligence in physical domains is actively calibrated by the depth of in-context structural data.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/fig2.pdf}
+    \caption{\textbf{Metanthropic Predictive Performance Audit.} Evaluation of Qwen3 forecasting dynamics. Intelligence scales with context depth ($L_{\text{hist}}$).}
+    \label{fig:fig2}
+\end{figure}
+
+\subsection{Latent Circuitry and Causal Validation}
+We successfully isolated latent features exhibiting correlations significantly exceeding random baselines (Figure~\ref{fig:fig3}). These ``energy circuits'' intensify as context depth increases. Furthermore, targeted ablation of these features (Figure~\ref{fig:fig5}) resulted in a catastrophic collapse in predictive accuracy ($\varepsilon$), confirming that these latent representations are functionally essential for forecasting.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/fig3.pdf}
+    \caption{\textbf{Latent Circuitry Results.} Correlation analysis of energy features.}
+    \label{fig:fig3}
+\end{figure}
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/fig5.pdf}
+    \caption{\textbf{Causal Intervention Results.} Ablation study showing energy circuit necessity.}
+    \label{fig:fig5}
+\end{figure}
+
+\section{Discussion: The Metanthropic Horizon}
+\label{sec:discussion}
+Our mechanistic audit reveals that frontier LLMs move beyond statistical extrapolation to construct implicit world models of governing dynamics. Metanthropic has extended the frontier of interpretability from linguistic patterns to the objective laws of physical dynamics. We anticipate that these findings will act as a milestone for building language agents capable of objective reasoning and agency within the structural reality of the physical world.
+
+\bibliographystyle{plainnat}
+\bibliography{main} % Ensure you have a main.bib file
+
+\end{document}
