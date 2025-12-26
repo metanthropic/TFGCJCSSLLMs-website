@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="title" content="The Fragility of Guardrails - Metanthropic & Ekjot Singh">
+        <meta name="description" content="We conduct a mechanistic audit of LLM residual streams during physics-forecasting tasks, revealing that safety-steered models can suffer from cognitive jamming and repetition collapse.">
+        <meta name="keywords" content="LLM, Safety, Guardrails, Mechanistic Interpretability, Sparse Autoencoders, Cognitive Jamming, AI Safety, Metanthropic">
+        <meta name="author" content="Ekjot Singh, Metanthropic">
+        <meta name="robots" content="index, follow">
+        <meta name="language" content="English">
+
+        <meta property="og:type" content="article">
+        <meta property="og:site_name" content="Metanthropic">
+        <meta property="og:title" content="The Fragility of Guardrails: Cognitive Jamming and Repetition Collapse in Safety-Steered LLMs">
+        <meta property="og:description" content="Uncovering the latent reasoning circuits that allow AI to move beyond text and into the structural reality of the physical world.">
+        <meta property="og:url" content="https://metanthropic.vercel.app/research/fragility-of-guardrails">
+        <meta property="og:image" content="static/images/fig1.png">
+        <meta property="og:image:alt" content="The Metanthropic Mechanistic Audit">
+
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@ek10sh">
+        <meta name="twitter:creator" content="@ek10sh">
+        <meta name="twitter:title" content="The Fragility of Guardrails">
+        <meta name="twitter:description" content="We demonstrate that forecasting precision is a direct function of context depth, suggesting a latent 'warm-up' phase of in-context world-modeling.">
+        <meta name="twitter:image" content="static/images/fig1.png">
+
+        <meta name="citation_title" content="The Fragility of Guardrails: Cognitive Jamming and Repetition Collapse in Safety-Steered LLMs">
+        <meta name="citation_author" content="Singh, Ekjot">
+        <meta name="citation_publication_date" content="2025">
+        <meta name="citation_pdf_url" content="static/pdfs/paper.pdf">
+
+        <title>The Fragility of Guardrails - Metanthropic & Ekjot Singh</title>
+
+        <link rel="icon" type="image/x-icon" href="static/images/main-logo-small.png">
+
+        <link rel="stylesheet" href="static/css/bulma.min.css">
+        <link rel="stylesheet" href="static/css/index.css">
+        <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+        <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+
+        <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script defer src="static/js/fontawesome.all.min.js"></script>
+        <script defer src="static/js/bulma-carousel.min.js"></script>
+        <script defer src="static/js/bulma-slider.min.js"></script>
+        <script defer src="static/js/index.js"></script>
+
+        <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "ScholarlyArticle",
+        "headline": "The Fragility of Guardrails: Cognitive Jamming and Repetition Collapse in Safety-Steered LLMs",
+        "description": "Mechanistic audit of LLM residual streams revealing how safety guardrails can induce cognitive jamming.",
+        "author": [
+        {
+        "@type": "Person",
+        "name": "Ekjot Singh",
+        "affiliation": { "@type": "Organization", "name": "Metanthropic" }
+        }
+        ],
+        "datePublished": "2025-12-18",
+        "publisher": { "@type": "Organization", "name": "Metanthropic" },
+        "url": "https://metanthropic.vercel.app/research/fragility-of-guardrails",
+        "image": "static/images/fig1.png"
+        }
+        </script>
+    </head>
+    <body>
+
+        <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+            <i class="fas fa-chevron-up"></i>
+        </button>
+
+        <div class="more-works-container">
+            <button class="more-works-btn" onclick="toggleMoreWorks()" title="View More Works from Our Lab">
+                <i class="fas fa-flask"></i>
+                More Works
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </button>
+            <div class="more-works-dropdown" id="moreWorksDropdown">
+                <div class="dropdown-header">
+                    <h4>More Works from Our Lab</h4>
+                    <button class="close-btn" onclick="toggleMoreWorks()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="works-list">
+                    <a href="https://metanthropic.vercel.app/" class="work-item" target="_blank">
+                        <div class="work-info">
+                            <h5>Metanthropic Research</h5>
+                            <p>Visit our research group website and blog.</p>
+                        </div>
+                        <i class="fas fa-globe"></i>
+                    </a>
+                    <a href="https://github.com/metanthropic" class="work-item" target="_blank">
+                        <div class="work-info">
+                            <h5>GitHub</h5>
+                            <p>Check out our open-source code and other projects.</p>
+                        </div>
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/ekjot-singh-153110268/" class="work-item" target="_blank">
+                        <div class="work-info">
+                            <h5>Ekjot LinkedIn</h5>
+                            <p>Connect with Ekjot Singh on LinkedIn.</p>
+                        </div>
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <main id="main-content">
+            <section class="hero">
+                <div class="hero-body">
+                    <div class="container is-max-desktop">
+                        <div class="columns is-centered">
+                            <div class="column has-text-centered">
+                                <h1 class="title is-1 publication-title">The Fragility of Guardrails: Cognitive Jamming and Repetition Collapse in Safety-Steered LLMs</h1>
+
+                                <div class="is-size-5 publication-authors">
+                                    <span class="author-block">
+                                        <a href="https://www.linkedin.com/in/ekjot-singh-153110268/" target="_blank">Ekjot Singh</a>
+                                    </span>
+                                </div>
+
+                                <div class="is-size-5 publication-authors">
+                                    <span class="author-block">Metanthropic<br>2025</span>
+                                </div>
+
+                                <div class="column has-text-centered">
+                                    <div class="publication-links">
+                                        <span class="link-block">
+                                            <a href="https://metanthropic.vercel.app/" target="_blank"
+                                                class="external-link button is-normal is-rounded is-dark">
+                                                <span class="icon">
+                                                    <i class="fas fa-globe"></i>
+                                                </span>
+                                                <span>Metanthropic</span>
+                                            </a>
+                                        </span>
+
+                                        <span class="link-block">
+                                            <a href="static/pdfs/paper.pdf" target="_blank"
+                                                class="external-link button is-normal is-rounded is-dark">
+                                                <span class="icon">
+                                                    <i class="fas fa-file-pdf"></i>
+                                                </span>
+                                                <span>Paper</span>
+                                            </a>
+                                        </span>
+
+                                        <span class="link-block">
+                                            <a href="static/code/fragility_guardrails.py" download="fragility_guardrails.py"
+                                                class="external-link button is-normal is-rounded is-dark">
+                                                <span class="icon">
+                                                    <i class="fas fa-file-code"></i> </span>
+                                                <span>Download Code</span>
+                                            </a>
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="hero teaser">
+                <div class="container is-max-desktop">
+                    <div class="hero-body has-text-centered">
+                        <img src="static/images/fig1.png" alt="The Metanthropic Mechanistic Audit" style="border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); max-width: 100%;">
+                        <h2 class="subtitle has-text-centered" style="margin-top: 1rem;">
+                            <strong>The Metanthropic Mechanistic Audit.</strong> We deploy Sparse Autoencoders (SAEs) to disentangle the residual stream, confirming that LLMs actively construct internal features correlated with physical invariants like energy.
+                        </h2>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section hero is-light">
+                <div class="container is-max-desktop">
+                    <div class="columns is-centered has-text-centered">
+                        <div class="column is-four-fifths">
+                            <h2 class="title is-3">Abstract</h2>
+                            <div class="content has-text-justified">
+                                <p>
+                                    Large Language Models (LLMs) have demonstrated a profound capacity for in-context learning (ICL), yet the internal causal mechanisms that drive these emergent behaviors remain a "black box" of high-dimensional entanglement. At Metanthropic, we believe that bridging the gap between linguistic pattern-matching and objective reasoning requires a mechanistic deconstruction of how models internalize structural priors. Physics-based dynamics offer a rigorous, experimentally controllable alternative to abstract symbolic benchmarks, serving as a critical testbed for evaluating the transition from statistical extrapolation to grounded world-modeling.
+                                </p>
+                                <p>
+                                    In this work, we conduct a mechanistic audit of the LLM residual stream during physics-forecasting tasks. We demonstrate that forecasting precision is a direct function of context depth, suggesting a latent "warm-up" phase of in-context world-modeling. By deploying Sparse Autoencoders (SAEs), we disentangle the residual stream to reveal that the model does not merely predict the next numerical token; instead, it actively constructs internal features that correlate with fundamental physical invariants, such as energy. These findings provide empirical evidence that LLMs can spontaneously encode objective physical concepts during the ICL process. Our work establishes a new precedent for Metanthropic’s mission: uncovering the latent reasoning circuits that allow AI to move beyond text and into the structural reality of the physical world.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div>
+            <section class="hero is-small">
+                <div class="hero-body">
+                    <div class="container">
+                        <div class="item">
+                            <h2 class="title is-centered has-text-centered is-3">Intelligence Scaling</h2>
+                            <img src="static/images/fig2.png" alt="Predictive Performance Audit" loading="lazy" style="display:block; margin: 0 auto; max-width: 90%;"/>
+                            <h2 class="subtitle has-text-centered" style="margin-top: 1.5rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                                <strong>Metanthropic Predictive Performance Audit.</strong> Evaluation of Qwen3 forecasting dynamics. We observe a clear phase transition where forecasting error decreases monotonically as context depth increases. This confirms that intelligence in physical domains is actively calibrated by the depth of in-context structural data.
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="container">
+                    <div class="item">
+                        <h2 class="title is-centered has-text-centered is-3">Latent Circuitry & Physical Invariants</h2>
+                        <img src="static/images/fig3.png" alt="Latent Circuitry Results" loading="lazy" style="display:block; margin: 0 auto; max-width: 90%;"/>
+                        <h2 class="subtitle has-text-centered" style="margin-top: 1.5rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                            <strong>Latent Circuitry Results.</strong> We successfully isolated latent features exhibiting correlations significantly exceeding random baselines. These "energy circuits" intensify as context depth increases, suggesting the model is spontaneously encoding the conservation of energy.
+                        </h2>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="container">
+                    <div class="item">
+                        <h2 class="title is-centered has-text-centered is-3">Causal Intervention: The "Doubt Switch"</h2>
+                        <img src="static/images/fig5.png" alt="Causal Intervention Results" loading="lazy" style="display:block; margin: 0 auto; max-width: 90%;"/>
+                        <h2 class="subtitle has-text-centered" style="margin-top: 1.5rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                            <strong>Ablation Study.</strong> To confirm functional necessity, we performed targeted ablation of the identified energy features. This resulted in a catastrophic collapse in predictive accuracy, proving that these latent representations are not just correlational but essential for the model's forecasting capability.
+                        </h2>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+            <section class="section" id="BibTeX">
+                <div class="container is-max-desktop content">
+                    <div class="bibtex-header">
+                        <h2 class="title">BibTeX</h2>
+                        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+                            <i class="fas fa-copy"></i>
+                            <span class="copy-text">Copy</span>
+                        </button>
+                    </div>
+                    <pre id="bibtex-code"><code>@article{singh2025fragility,
+                        title={The Fragility of Guardrails: Cognitive Jamming and Repetition Collapse in Safety-Steered LLMs},
+                        author={Singh, Ekjot},
+                        journal={Metanthropic Research},
+                        year={2025},
+                        url={https://metanthropic.vercel.app/research/fragility-of-guardrails}
+                        }</code></pre>
+                </div>
+            </section>
+
+            <footer class="footer">
+                <div class="container">
+                    <div class="columns is-centered">
+                        <div class="column is-8">
+                            <div class="content has-text-centered">
+                                <p>
+                                    &copy; 2025 Metanthropic Labs
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+        </main>
+    </body>
+</html>
